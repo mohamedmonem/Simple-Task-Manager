@@ -1,0 +1,6 @@
+framework module Pods_Simple_Task_ManagerTests {
+  umbrella header "Pods-Simple Task ManagerTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
