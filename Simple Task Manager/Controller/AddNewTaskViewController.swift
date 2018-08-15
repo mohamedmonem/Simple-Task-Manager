@@ -39,6 +39,7 @@ class AddNewTaskViewController: UIViewController,UITextFieldDelegate,UIPickerVie
         CreateCategoryPicker()
     }
     
+    //Create Date Picker for entering task deadline
     func CreatDatePicker() {
         let date = Date()
         let calendar = Calendar.current
@@ -61,12 +62,14 @@ class AddNewTaskViewController: UIViewController,UITextFieldDelegate,UIPickerVie
         let toolBar = UIToolbar()
         toolBar.sizeToFit()
         
+        //Done Button Of DatePicker
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePressed_date))
         toolBar.setItems([doneButton], animated: true)
         dateTextField.inputAccessoryView = toolBar
         dateTextField.inputView = datePicker
     }
     
+    //Action after pressing done button of DatePicker
     @objc func donePressed_date() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd-MM-yyyy"
@@ -74,6 +77,7 @@ class AddNewTaskViewController: UIViewController,UITextFieldDelegate,UIPickerVie
         view.endEditing(true)
     }
 
+    //Getting Saved Data Of Categories added in Add Category Screen (Color & Name)
     func getSavedCategories(){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
@@ -91,6 +95,8 @@ class AddNewTaskViewController: UIViewController,UITextFieldDelegate,UIPickerVie
         }
     }
     
+    // Carete Category PickerView for Categories added in "Add Category Screen"
+    //if there are no categories added yet - Category TexField will bed disabled and it's placeholder will be changed to No Categories - Add From Settings
     func CreateCategoryPicker() {
         
         if categoryList.count > 0{
@@ -108,6 +114,7 @@ class AddNewTaskViewController: UIViewController,UITextFieldDelegate,UIPickerVie
         }
     }
     
+    //Action after Categorirs PickerView Done Button Clicked
     @objc func donePressed_category() {
         self.categoryTextField.endEditing(true)
         categoryTextField.text = " \(categoryList[selectedCategoryIndex].name!)"
@@ -139,6 +146,7 @@ class AddNewTaskViewController: UIViewController,UITextFieldDelegate,UIPickerVie
         selectedCategoryIndex = row
     }
     
+    //Action after Add Task Button Clicked - All Input TextFields are required (Title & Category & Date)
     @IBAction func addTaskBtnClicked(_ sender: Any) {
         if titleTextField.text?.isEmpty != true && categoryTextField.text?.isEmpty != true && dateTextField.text?.isEmpty != true {
             saveTask()
@@ -147,6 +155,7 @@ class AddNewTaskViewController: UIViewController,UITextFieldDelegate,UIPickerVie
         }
     }
     
+    //Save  Task Data on Core Data - Insert into -> (CurrentTasksEntity)
     func saveTask(){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
